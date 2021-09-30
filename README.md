@@ -1,6 +1,5 @@
 [![pypresence](https://img.shields.io/badge/using-pypresence-00bb88.svg?style=for-the-badge&logo=discord&logoWidth=20)](https://github.com/qwertyquerty/pypresence)
 # discord-vlc-presence
-* * *
 This is a small python script that sets your locally running discord's Rich Presence to whatever you are playing on your VLC media player. And optionally if you are running Windows you can install pywinauto for displaying what you are playing too.
 
 ### Things to set up before you start using this
@@ -9,9 +8,9 @@ This is a small python script that sets your locally running discord's Rich Pres
   `pip install pypresence`  
   * Install the package psutil  
   `pip install psutil`
-  * Optionally install the package pywinauto for video title(filename of current video)  
+  * Optionally install the package pywinauto for video title(filename of current video) (Windows only)  
   `pip install pywinauto`  
-
+ 
 
 ### Set up the service on your PC
 #### Hide execution window on Windows
