@@ -13,8 +13,17 @@ This is a small python script that sets your locally running discord's Rich Pres
  
 
 ### Set up the service on your PC
+#### Settingup VLC for filename as title
+For the title to Display currectly you will have to change the VLC media player's settings to display filename as your window title. To do this,  
+
+`Open VLC -> Menu Tools -> Preferences (Show settings = ALL) -> Input/Codecs.`  
+
+Then at the very bottom of the right panel set the option `"Change title according to current media"` to `"$u"`.  
+
+Save, exit and restart VLC.
+
 #### Hide execution window on Windows
-You will see a file named silent.vbs. This is used to run the script without any window and everything is done in the background. 
+You will see a file named silent.vbs. This is used to run the script without any window and everything is done in the background.
 
 #### Automatic Startup on Windows
 If you wish to start the script directly after system startup, first create a shortcut for vbs file and then put it in startmenu's startup folder, that is either -  
