@@ -1,6 +1,7 @@
 import pypresence
 import psutil
 import time
+import logging
 try:
     import pywinauto
 except ImportError:
@@ -62,6 +63,16 @@ VLC_RUNNING = False
 VLC_START_TIME = 0
 VLC_TITLE = ''
 
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+
+fmt = logging.Formatter("%(module)s:%(levelname)s:%(asctime)s:%(message)s")
+
+log_file = logging.FileHandler('Logs/run.log', 'a')
+log_file.setFormatter(fmt)
+logger.addHandler(log_file)
+
 while 1:
     try:
         if 'vlc.exe' in (i.name() for i in psutil.process_iter()):
@@ -73,3 +84,9 @@ while 1:
         if VLC_RUNNING:
             VLC_CLIENT.close()
         exit(0)
+    except pypresence.exceptions.InvalidID:
+        print("Client ID is invalid or you are not connected to the internet!")
+        logger.error("Invalid Client ID or no internet connection!")
+    except Exception as e:
+        print("Unhandeled exception as occured!")
+        logger.critical('An unhandeled exception as occured!', exc_info=e)
