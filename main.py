@@ -75,7 +75,7 @@ logger.addHandler(log_file)
 
 while 1:
     try:
-        if 'vlc.exe' in (i.name() for i in psutil.process_iter()):
+        if any('vlc' in i.name() for i in psutil.process_iter()):
             set_to_vlc()
         else:
             close_vlc()
