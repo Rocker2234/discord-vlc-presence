@@ -22,6 +22,9 @@ Then at the very bottom of the right panel set the option `"Change title accordi
 
 Save, exit and restart VLC.
 
+#### Running and Testing the Script
+Clone or Download this repo as zip file then extract the contents, you can check and see if everything is working properly by running `main.py`.
+
 #### Hide execution window on Windows
 You will see a file named silent.vbs. This is used to run the script without any window and everything is done in the background.
 

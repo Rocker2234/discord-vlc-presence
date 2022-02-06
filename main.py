@@ -2,6 +2,7 @@ import pypresence
 import psutil
 import time
 import logging
+import os
 try:
     import pywinauto
 except ImportError:
@@ -63,6 +64,12 @@ VLC_RUNNING = False
 VLC_START_TIME = 0
 VLC_TITLE = ''
 
+if not os.path.isdir('Logs'):
+    print('Creating Logs Folder')
+    os.mkdir('Logs')
+if not os.path.isfile('Logs/run.log'):
+    print('Creating Log File')
+    open('Logs/run.log', 'a').close()
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
