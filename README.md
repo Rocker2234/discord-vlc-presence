@@ -5,11 +5,17 @@ This is a small python script that sets your locally running discord's Rich Pres
 ### Things to set up before you start using this
 * Make sure you have Python3 installed.
   * Install the package pypresence  
-  `pip install pypresence`  
+  ```ps1
+  pip install pypresence
+  ```  
   * Install the package psutil  
-  `pip install psutil`
+  ```ps1
+  pip install psutil
+  ```
   * Optionally install the package pywinauto for video title(filename of current video) (Windows only)  
-  `pip install pywinauto`  
+  ```ps1 
+  pip install pywinauto
+  ```  
  
 
 ### Set up the service on your PC
