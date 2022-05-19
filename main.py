@@ -3,6 +3,7 @@ import psutil
 import time
 import logging
 import os
+
 try:
     import pywinauto
 except ImportError:
@@ -10,6 +11,7 @@ except ImportError:
     pywinauto = False
 
 KEEP_EXTENTIONS = False
+
 
 # Only works perfectly when title is set to file name - Change title text to "$u" in settings.
 # Menu Tools -> Preferences (Show settings = ALL) -> Input/Codecs.
@@ -30,23 +32,26 @@ def get_vlc_title(keep_ext=True):
 
 def set_to_vlc():
     global VLC_RUNNING, VLC_START_TIME, VLC_TITLE, VLC_CLIENT
-    if not VLC_RUNNING:
-        print('Setting to VLC!')
-        if VLC_START_TIME == 0:
-            VLC_START_TIME = int(time.time())
-        VLC_CLIENT.connect()
-        VLC_RUNNING = True
-        if not pywinauto:
-            VLC_START_TIME = int(time.time())
-            VLC_CLIENT.update(details='Playing Media', start=VLC_START_TIME, large_image='vlc_large',
-                              large_text='VideoLAN')
     if pywinauto:
         if VLC_TITLE != get_vlc_title(KEEP_EXTENTIONS):
-            print("Title Changed!")
             VLC_START_TIME = int(time.time())
             VLC_TITLE = get_vlc_title(KEEP_EXTENTIONS)
-            VLC_CLIENT.update(state=VLC_TITLE, details='Playing Media', start=VLC_START_TIME, large_image='vlc_large',
-                              large_text='VideoLAN')
+            print("Setting with title:", VLC_TITLE)
+            if VLC_TITLE != '':
+                VLC_CLIENT.connect()
+                VLC_CLIENT.update(state=VLC_TITLE, details='Playing Media', start=VLC_START_TIME,
+                                  large_image='vlc_large',
+                                  large_text='VideoLAN')
+                VLC_RUNNING = True
+            else:
+                close_vlc()
+    elif not VLC_RUNNING:
+        print("Setting w/o title")
+        VLC_START_TIME = int(time.time())
+        VLC_CLIENT.connect()
+        VLC_CLIENT.update(details='Playing Media', start=VLC_START_TIME, large_image='vlc_large',
+                          large_text='VideoLAN')
+        VLC_RUNNING = True
 
 
 def close_vlc():
@@ -86,7 +91,7 @@ while 1:
             set_to_vlc()
         else:
             close_vlc()
-        time.sleep(15)
+        time.sleep(6)
     except KeyboardInterrupt:
         if VLC_RUNNING:
             VLC_CLIENT.close()
