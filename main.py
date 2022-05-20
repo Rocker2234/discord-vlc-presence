@@ -38,6 +38,8 @@ def set_to_vlc():
             VLC_TITLE = get_vlc_title(KEEP_EXTENTIONS)
             print("Setting with title:", VLC_TITLE)
             if VLC_TITLE != '':
+                if VLC_RUNNING:
+                    VLC_CLIENT.close()
                 VLC_CLIENT.connect()
                 VLC_CLIENT.update(state=VLC_TITLE, details='Playing Media', start=VLC_START_TIME,
                                   large_image='vlc_large',
