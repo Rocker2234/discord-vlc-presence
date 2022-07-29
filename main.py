@@ -31,20 +31,22 @@ def get_vlc_title(keep_ext=True):
 
 
 def set_to_vlc():
-    global VLC_RUNNING, VLC_START_TIME, VLC_TITLE, VLC_CLIENT
+    global VLC_RUNNING, VLC_START_TIME, VLC_TITLE, VLC_CLIENT, VLC_CONNECTED
     if pywinauto:
         if VLC_TITLE != get_vlc_title(KEEP_EXTENTIONS):
             VLC_START_TIME = int(time.time())
             VLC_TITLE = get_vlc_title(KEEP_EXTENTIONS)
             print("Setting with title:", VLC_TITLE)
             if VLC_TITLE != '':
-                if VLC_RUNNING:
-                    VLC_CLIENT.close()
-                VLC_CLIENT.connect()
-                VLC_CLIENT.update(state=VLC_TITLE, details='Playing Media', start=VLC_START_TIME,
-                                  large_image='vlc_large',
-                                  large_text='VideoLAN')
-                VLC_RUNNING = True
+                if not VLC_CONNECTED:
+                    connect_VLC()
+                try:
+                    VLC_CLIENT.update(state=VLC_TITLE, details='Playing Media', start=VLC_START_TIME,
+                                      large_image='vlc_large',
+                                      large_text='VideoLAN')
+                    VLC_RUNNING = True
+                except pypresence.exceptions.InvalidID:
+                    close_vlc()
             else:
                 close_vlc()
     elif not VLC_RUNNING:
@@ -56,17 +58,35 @@ def set_to_vlc():
         VLC_RUNNING = True
 
 
+def connect_VLC():
+    global VLC_CONNECTED, VLC_CLIENT
+    if VLC_CONNECTED:
+        return
+    VLC_CLIENT.connect()
+    VLC_CONNECTED = True
+
+
 def close_vlc():
-    global VLC_RUNNING, VLC_START_TIME, VLC_TITLE, VLC_CLIENT
-    if VLC_RUNNING:
+    global VLC_RUNNING, VLC_START_TIME, VLC_TITLE, VLC_CLIENT, VLC_CONNECTED
+    if VLC_RUNNING or VLC_CONNECTED:
         print('Closing VLC!')
         VLC_CLIENT.close()
         VLC_RUNNING = False
+        VLC_CONNECTED = False
         VLC_START_TIME = 0
         VLC_TITLE = ''
 
 
-VLC_CLIENT = pypresence.Presence(client_id='890945084940492881')
+def get_presence(client_id: str) -> pypresence.presence.Presence:
+    while 1:
+        try:
+            return pypresence.Presence(client_id=client_id)
+        except pypresence.exceptions.DiscordNotFound:
+            time.sleep(3)
+
+
+VLC_CLIENT = get_presence('890945084940492881')
+VLC_CONNECTED = False
 VLC_RUNNING = False
 VLC_START_TIME = 0
 VLC_TITLE = ''
